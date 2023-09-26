@@ -41,21 +41,25 @@ func RelayMidjourneyImage(c *gin.Context) {
 		})
 		return
 	}
-	resp, err := http.Get(midjourneyTask.ImageUrl)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+        if common.MJProxyImageEnabled {
+	  resp, err := http.Get(midjourneyTask.ImageUrl)
+	  if err != nil {
+	  	c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "http_get_image_failed",
 		})
-	}
-	defer resp.Body.Close()
-	data, err := io.ReadAll(resp.Body)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.Header("Content-Type", "image/jpeg")
-	//c.Header("Content-Length", string(rune(len(data))))
-	c.Data(http.StatusOK, "image/jpeg", data)
+	  }
+	  defer resp.Body.Close()
+	  data, err := io.ReadAll(resp.Body)
+	  if err != nil {
+	  	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	  	return
+	  }
+          c.Header("Content-Type", "image/jpeg")
+	  //c.Header("Content-Length", string(rune(len(data))))
+	  c.Data(http.StatusOK, "image/jpeg", data)
+        } else {
+          c.Redirect(http.StatusFound, midjourneyTask.ImageUrl)
+        }
 }
 
 func relayMidjourneyNotify(c *gin.Context) *MidjourneyResponse {
@@ -283,6 +287,7 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 	//if c.Request.Header.Get("Authorization") != "" {
 	//	mjToken = strings.Split(c.Request.Header.Get("Authorization"), " ")[1]
 	//}
+	req.Header.Set("Authorization", "Bearer midjourney-proxy")
 	req.Header.Set("mj-api-secret", strings.Split(c.Request.Header.Get("Authorization"), " ")[1])
 	// print request header
 	log.Printf("request header: %s", req.Header)

@@ -24,6 +24,7 @@ var ChatLink = ""
 var QuotaPerUnit = 500 * 1000.0 // $0.002 / 1K tokens
 var DisplayInCurrencyEnabled = true
 var DisplayTokenStatEnabled = true
+var MJProxyImageEnabled = true
 
 var UsingSQLite = false
 

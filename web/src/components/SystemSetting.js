@@ -8,6 +8,7 @@ const SystemSetting = () => {
         PasswordRegisterEnabled: '',
         EmailVerificationEnabled: '',
         GitHubOAuthEnabled: '',
+        MJProxyImageEnabled: '',
         GitHubClientId: '',
         GitHubClientSecret: '',
         Notice: '',
@@ -76,6 +77,7 @@ const SystemSetting = () => {
             case 'TurnstileCheckEnabled':
             case 'EmailDomainRestrictionEnabled':
             case 'RegisterEnabled':
+            case 'MJProxyImageEnabled':
                 value = inputs[key] === 'true' ? 'false' : 'true';
                 break;
             default:
@@ -251,6 +253,14 @@ const SystemSetting = () => {
             <Grid.Column>
                 <Form loading={loading}>
                     <Header as='h3'>通用设置</Header>
+                    <Form.Group widths='equal'>
+                        <Form.Checkbox
+                            checked={inputs.MJProxyImageEnabled === 'true'}
+                            label='允许代理MJ图片, 若不允许，则302到原图片地址'
+                            name='MJProxyImageEnabled'
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
                     <Form.Group widths='equal'>
                         <Form.Input
                             label='服务器地址'
