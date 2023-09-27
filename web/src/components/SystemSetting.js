@@ -9,6 +9,7 @@ const SystemSetting = () => {
         EmailVerificationEnabled: '',
         GitHubOAuthEnabled: '',
         MJProxyImageEnabled: '',
+        MJProxyForceReplaceEnabled: '',
         GitHubClientId: '',
         GitHubClientSecret: '',
         Notice: '',
@@ -18,6 +19,7 @@ const SystemSetting = () => {
         SMTPFrom: '',
         SMTPToken: '',
         ServerAddress: '',
+        MJProxyAddress: '',
         EpayId: '',
         EpayKey: '',
         Price: 7.3,
@@ -78,6 +80,7 @@ const SystemSetting = () => {
             case 'EmailDomainRestrictionEnabled':
             case 'RegisterEnabled':
             case 'MJProxyImageEnabled':
+            case 'MJProxyForceReplaceEnabled':
                 value = inputs[key] === 'true' ? 'false' : 'true';
                 break;
             default:
@@ -114,6 +117,7 @@ const SystemSetting = () => {
             name === 'Notice' ||
             name.startsWith('SMTP') ||
             name === 'ServerAddress' ||
+            name === 'MJProxyAddress' ||
             name === 'EpayId' ||
             name === 'EpayKey' ||
             name === 'Price' ||
@@ -138,6 +142,10 @@ const SystemSetting = () => {
         await updateOption('ServerAddress', ServerAddress);
     };
 
+    const submitMJProxyAddress = async () => {
+        let MJProxyAddress = removeTrailingSlash(inputs.MJProxyAddress);
+        await updateOption('MJProxyAddress', MJProxyAddress);
+    };
     const submitPayAddress = async () => {
         if (inputs.ServerAddress === '') {
             showError('请先填写服务器地址');
@@ -254,14 +262,6 @@ const SystemSetting = () => {
                 <Form loading={loading}>
                     <Header as='h3'>通用设置</Header>
                     <Form.Group widths='equal'>
-                        <Form.Checkbox
-                            checked={inputs.MJProxyImageEnabled === 'true'}
-                            label='允许代理MJ图片, 若不允许，则302到原图片地址'
-                            name='MJProxyImageEnabled'
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group widths='equal'>
                         <Form.Input
                             label='服务器地址'
                             placeholder='例如：https://yourdomain.com'
@@ -271,6 +271,34 @@ const SystemSetting = () => {
                         />
                     </Form.Group>
                     <Form.Button onClick={submitServerAddress}>
+                        更新服务器地址
+                    </Form.Button>
+                    <Divider/>
+                    <Header as='h3'>MJ设置</Header>
+                    <Form.Group widths='equal'>
+                        <Form.Checkbox
+                            checked={inputs.MJProxyImageEnabled === 'true'}
+                            label='允许代理MJ图片, 若不允许，则302到原图片地址'
+                            name='MJProxyImageEnabled'
+                            onChange={handleInputChange}
+                        />
+                        <Form.Checkbox
+                            checked={inputs.MJProxyForceReplaceEnabled === 'true'}
+                            label='强制替换MJ图片代理（仅302到原图片地址时生效)'
+                            name='MJProxyForceReplaceEnabled'
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+                    <Form.Group widths='equal'>
+                        <Form.Input
+                            label='MJ图片代理地址'
+                            placeholder='例如：https://yourdomain.com/xxx'
+                            value={inputs.MJProxyAddress}
+                            name='MJProxyAddress'
+                            onChange={handleInputChange}
+                        />
+                    </Form.Group>
+                    <Form.Button onClick={submitMJProxyAddress}>
                         更新服务器地址
                     </Form.Button>
                     <Divider/>

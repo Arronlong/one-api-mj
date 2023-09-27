@@ -12,6 +12,7 @@ import (
 	"one-api/model"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -41,7 +42,7 @@ func RelayMidjourneyImage(c *gin.Context) {
 		})
 		return
 	}
-        if common.MJProxyImageEnabled {
+  if common.MJProxyImageEnabled {
 	  resp, err := http.Get(midjourneyTask.ImageUrl)
 	  if err != nil {
 	  	c.JSON(http.StatusInternalServerError, gin.H{
@@ -57,9 +58,20 @@ func RelayMidjourneyImage(c *gin.Context) {
           c.Header("Content-Type", "image/jpeg")
 	  //c.Header("Content-Length", string(rune(len(data))))
 	  c.Data(http.StatusOK, "image/jpeg", data)
-        } else {
-          c.Redirect(http.StatusFound, midjourneyTask.ImageUrl)
-        }
+  } else {
+  	if common.MJProxyForceReplaceEnabled {
+			// 找到"/attachments"的位置
+			index := strings.Index(midjourneyTask.ImageUrl, "/attachments")
+			// 截取字符串
+			suffix := midjourneyTask.ImageUrl[index:]
+			// 拼接新的URL
+			newUrl := common.MJProxyAddress + suffix
+			// 输出新的URL
+			c.Redirect(http.StatusFound, newUrl)
+		} else {
+			c.Redirect(http.StatusFound, midjourneyTask.ImageUrl)
+		}
+  }
 }
 
 func relayMidjourneyNotify(c *gin.Context) *MidjourneyResponse {
@@ -120,6 +132,9 @@ func relayMidjourneyTask(c *gin.Context, relayMode int) *MidjourneyResponse {
 	midjourneyTask.StartTime = originTask.StartTime
 	midjourneyTask.FinishTime = originTask.FinishTime
 	midjourneyTask.ImageUrl = common.ServerAddress + "/mj/image/" + originTask.MjId
+	if originTask.Status != "SUCCESS" {
+	    midjourneyTask.ImageUrl += "?rand=" + strconv.FormatInt(time.Now().UnixNano(), 10)
+	}
 	midjourneyTask.Status = originTask.Status
 	midjourneyTask.FailReason = originTask.FailReason
 	midjourneyTask.Action = originTask.Action
@@ -187,7 +202,15 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 				Code:        4,
 				Description: "task_status_is_not_success",
 			}
-
+		}else{//原任务的Status=SUCCESS，则可以做放大UPSCALE、变换VARIATION等动作，此时必须使用原来的请求地址才能正确处理
+			channel, err := model.GetChannelById(originTask.ChannelId, false)
+			if err != nil {
+				return &MidjourneyResponse{
+					Code:        4,
+					Description: "channel_not_found",
+				}
+			}
+			c.Set("base_url", channel.GetBaseURL())
 		}
 		midjRequest.Prompt = originTask.Prompt
 	} else if relayMode == RelayModeMidjourneyChange {

@@ -13,6 +13,7 @@ var StartTime = time.Now().Unix() // unit: second
 var Version = "v0.0.0"            // this hard coding will be replaced automatically when building, no need to manually change
 var SystemName = "One API"
 var ServerAddress = "http://localhost:3000"
+var MJProxyAddress = ""
 var PayAddress = ""
 var EpayId = ""
 var EpayKey = ""
@@ -25,6 +26,7 @@ var QuotaPerUnit = 500 * 1000.0 // $0.002 / 1K tokens
 var DisplayInCurrencyEnabled = true
 var DisplayTokenStatEnabled = true
 var MJProxyImageEnabled = true
+var MJProxyForceReplaceEnabled = false
 
 var UsingSQLite = false
 

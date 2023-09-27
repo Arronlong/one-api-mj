@@ -28,6 +28,7 @@ func InitOptionMap() {
 	common.OptionMap["ImageDownloadPermission"] = strconv.Itoa(common.ImageDownloadPermission)
 	common.OptionMap["PasswordLoginEnabled"] = strconv.FormatBool(common.PasswordLoginEnabled)
 	common.OptionMap["MJProxyImageEnabled"] = strconv.FormatBool(common.MJProxyImageEnabled)
+	common.OptionMap["MJProxyForceReplaceEnabled"] = strconv.FormatBool(common.MJProxyForceReplaceEnabled)
 	common.OptionMap["PasswordRegisterEnabled"] = strconv.FormatBool(common.PasswordRegisterEnabled)
 	common.OptionMap["EmailVerificationEnabled"] = strconv.FormatBool(common.EmailVerificationEnabled)
 	common.OptionMap["GitHubOAuthEnabled"] = strconv.FormatBool(common.GitHubOAuthEnabled)
@@ -54,6 +55,7 @@ func InitOptionMap() {
 	common.OptionMap["SystemName"] = common.SystemName
 	common.OptionMap["Logo"] = common.Logo
 	common.OptionMap["ServerAddress"] = ""
+	common.OptionMap["MJProxyAddress"] = ""
 	common.OptionMap["PayAddress"] = ""
 	common.OptionMap["EpayId"] = ""
 	common.OptionMap["EpayKey"] = ""
@@ -141,6 +143,8 @@ func updateOptionMap(key string, value string) (err error) {
 			common.PasswordLoginEnabled = boolValue
 		case "MJProxyImageEnabled":
 			common.MJProxyImageEnabled = boolValue
+		case "MJProxyForceReplaceEnabled":
+			common.MJProxyForceReplaceEnabled = boolValue
 		case "EmailVerificationEnabled":
 			common.EmailVerificationEnabled = boolValue
 		case "GitHubOAuthEnabled":
@@ -179,6 +183,8 @@ func updateOptionMap(key string, value string) (err error) {
 		common.SMTPToken = value
 	case "ServerAddress":
 		common.ServerAddress = value
+	case "MJProxyAddress":
+		common.MJProxyAddress = value
 	case "PayAddress":
 		common.PayAddress = value
 	case "EpayId":
