@@ -44,6 +44,9 @@ const Footer = () => {
               {systemName} {process.env.REACT_APP_VERSION}{' '}
             </a>
             由{' '}
+            <a href='https://github.com/Calcium-Ion/one-api' target='_blank'>
+              Calcium-Ion
+            </a>{' & '}
             <a href='https://github.com/songquanpeng' target='_blank'>
               JustSong
             </a>{' '}

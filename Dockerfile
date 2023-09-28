@@ -13,6 +13,8 @@ ENV GO111MODULE=on \
     CGO_ENABLED=1 \
     GOOS=linux
 
+ENV GOPROXY=https://goproxy.io,direct
+
 WORKDIR /build
 ADD go.mod go.sum ./
 RUN go mod download

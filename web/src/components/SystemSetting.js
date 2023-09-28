@@ -299,7 +299,7 @@ const SystemSetting = () => {
                         />
                     </Form.Group>
                     <Form.Button onClick={submitMJProxyAddress}>
-                        更新服务器地址
+                        更新MJ设置
                     </Form.Button>
                     <Divider/>
                     <Header as='h3'>支付设置（当前仅支持易支付接口，使用上方服务器地址作为回调地址！）</Header>

@@ -52,7 +52,7 @@ func GetAllUnFinishTasks() []*Midjourney {
 	var tasks []*Midjourney
 	var err error
 	// get all tasks progress is not 100%
-	err = DB.Where("progress != ?", "100%").Find(&tasks).Error
+	err = DB.Where("progress != ? and mj_id !=''", "100%").Find(&tasks).Error
 	if err != nil {
 		return nil
 	}

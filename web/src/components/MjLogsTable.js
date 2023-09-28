@@ -304,6 +304,15 @@ const LogsTable = () => {
               <Table.HeaderCell
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
+                    sortLog('channel_id');
+                  }}
+                  width={1}
+              >
+                渠道ID
+              </Table.HeaderCell>
+              <Table.HeaderCell
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
                     sortLog('fail_reason');
                   }}
                   width={1}
@@ -343,6 +352,7 @@ const LogsTable = () => {
                       }
                     </Table.Cell>
                     <Table.Cell>{log.prompt}</Table.Cell>
+                    <Table.Cell>{log.channel_id}</Table.Cell>
                     <Table.Cell>{log.fail_reason ? log.fail_reason : '无'}</Table.Cell>
                   </Table.Row>
                 );

@@ -46,10 +46,19 @@ func SetRelayRouter(router *gin.Engine) {
 	relayMjRouter.GET("/image/:id", controller.RelayMidjourneyImage)
 	relayMjRouter.Use(middleware.TokenAuth(), middleware.Distribute())
 	{
+		//mj-proxy项目API
+		// 提交任务：/mj/submit/imagine
+		// 放大变形：/mj/submit/change
+		// 任务详情：/mj/task/:id/fetch
+		// 回调设置：/mj/notify
 		relayMjRouter.POST("/submit/imagine", controller.RelayMidjourney)
 		relayMjRouter.POST("/submit/change", controller.RelayMidjourney)
 		relayMjRouter.POST("/notify", controller.RelayMidjourney)
 		relayMjRouter.GET("/task/:id/fetch", controller.RelayMidjourney)
+
+		//mj-midjourney项目暂不支持
+		// 提交任务：/task/submit,参数里会标明是imagine还是放大、变换，还有其他参数
+		// 任务详情：/task/status/:idstr
 	}
 	//relayMjRouter.Use()
 }
