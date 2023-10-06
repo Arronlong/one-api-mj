@@ -1,6 +1,10 @@
 package model
 
-import "one-api/common"
+import (
+	"one-api/common"
+	"strconv"
+	"time"
+)
 
 type Midjourney struct {
 	Id          int    `json:"id"`
@@ -30,7 +34,13 @@ func GetAllUserTask(userId int, startIdx int, num int) []*Midjourney {
 		return nil
 	}
 	for _, task := range tasks {
-		task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+		// task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+		if task.ImageUrl != "" {
+			task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+			if task.Status != "SUCCESS" {
+			    task.ImageUrl += "?rand=" + strconv.FormatInt(time.Now().UnixNano(), 10)
+			}
+		}
 	}
 	return tasks
 }
@@ -43,7 +53,13 @@ func GetAllTasks(startIdx int, num int) []*Midjourney {
 		return nil
 	}
 	for _, task := range tasks {
-		task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+		// task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+		if task.ImageUrl != "" {
+			task.ImageUrl = common.ServerAddress + "/mj/image/" + task.MjId
+			if task.Status != "SUCCESS" {
+			    task.ImageUrl += "?rand=" + strconv.FormatInt(time.Now().UnixNano(), 10)
+			}
+		}
 	}
 	return tasks
 }

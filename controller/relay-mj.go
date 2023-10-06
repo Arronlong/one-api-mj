@@ -153,9 +153,12 @@ func relayMidjourneyTask(c *gin.Context, relayMode int) *MidjourneyResponse {
 	midjourneyTask.SubmitTime = originTask.SubmitTime
 	midjourneyTask.StartTime = originTask.StartTime
 	midjourneyTask.FinishTime = originTask.FinishTime
-	midjourneyTask.ImageUrl = common.ServerAddress + "/mj/image/" + originTask.MjId
-	if originTask.Status != "SUCCESS" {
-	    midjourneyTask.ImageUrl += "?rand=" + strconv.FormatInt(time.Now().UnixNano(), 10)
+	midjourneyTask.ImageUrl = ""
+	if originTask.ImageUrl != "" {
+		midjourneyTask.ImageUrl = common.ServerAddress + "/mj/image/" + originTask.MjId
+		if originTask.Status != "SUCCESS" {
+		    midjourneyTask.ImageUrl += "?rand=" + strconv.FormatInt(time.Now().UnixNano(), 10)
+		}
 	}
 	midjourneyTask.Status = originTask.Status
 	midjourneyTask.FailReason = originTask.FailReason

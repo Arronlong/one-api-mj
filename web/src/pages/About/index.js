@@ -37,8 +37,8 @@ const About = () => {
             <Header as='h3'>关于</Header>
             <p>可在设置页面设置关于内容，支持 HTML & Markdown</p>
             魔改版项目仓库地址：
-            <a href='https://github.com/Calcium-Ion/one-api'>
-              https://github.com/Calcium-Ion/one-api
+            <a href='https://github.com/Arronlong/one-api'>
+              https://github.com/Arronlong/one-api
             </a>
           </Segment>
         </> : <>
