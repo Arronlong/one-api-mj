@@ -47,7 +47,7 @@ let headerButtons = [
     icon: 'book'
   },
   {
-    name: 'Midjourney',
+    name: 'mj绘画日志',
     to: '/midjourney',
     icon: 'images outline'
   },

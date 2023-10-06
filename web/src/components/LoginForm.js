@@ -88,7 +88,7 @@ const LoginForm = () => {
               fluid
               icon='user'
               iconPosition='left'
-              placeholder='用户名'
+              placeholder='用户名/邮箱'
               name='username'
               value={username}
               onChange={handleChange}

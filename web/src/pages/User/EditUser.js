@@ -38,7 +38,7 @@ const EditUser = () => {
   };
   const navigate = useNavigate();
   const handleCancel = () => {
-    navigate("/setting");
+    navigate("/user");
   }
   const loadUser = async () => {
     let res = undefined;
