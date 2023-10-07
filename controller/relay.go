@@ -26,6 +26,8 @@ const (
 	RelayModeImagesGenerations
 	RelayModeEdits
 	RelayModeMidjourneyImagine
+	RelayModeMidjourneyDescribe
+	RelayModeMidjourneyBlend
 	RelayModeMidjourneyChange
 	RelayModeMidjourneyNotify
 	RelayModeMidjourneyTaskFetch
@@ -251,6 +253,10 @@ func RelayMidjourney(c *gin.Context) {
 	relayMode := RelayModeUnknown
 	if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/imagine") {
 		relayMode = RelayModeMidjourneyImagine
+	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/describe") {
+		relayMode = RelayModeMidjourneyDescribe
+	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/blend") {
+		relayMode = RelayModeMidjourneyBlend
 	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/notify") {
 		relayMode = RelayModeMidjourneyNotify
 	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/change") {

@@ -104,6 +104,7 @@ func UpdateMidjourneyTask() {
 				}
 				task.Code = 1
 				task.Progress = responseItem.Progress
+				task.Prompt = responseItem.Prompt
 				task.PromptEn = responseItem.PromptEn
 				task.State = responseItem.State
 				task.SubmitTime = responseItem.SubmitTime
@@ -112,6 +113,7 @@ func UpdateMidjourneyTask() {
 				task.ImageUrl = responseItem.ImageUrl
 				task.Status = responseItem.Status
 				task.FailReason = responseItem.FailReason
+				task.Description = responseItem.Description
 				if task.Progress != "100%" && responseItem.FailReason != "" {
 					log.Println(task.MjId + " 构建失败，" + task.FailReason)
 					task.Progress = "100%"

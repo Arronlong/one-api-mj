@@ -61,6 +61,8 @@ _✨ 通过标准的 OpenAI API 格式访问所有的大模型，开箱即用 �
 ## 此分叉版本的主要变更
 1. 添加[Midjourney-Proxy](https://github.com/novicezk/midjourney-proxy)接口的支持：
     + [x] /mj/submit/imagine
+    + [x] /mj/submit/describe
+    + [x] /mj/submit/blend
     + [x] /mj/submit/change
     + [x] /mj/image/{id} （通过此接口获取图片，**请必须在系统设置中填写服务器地址！！**）
     + [x] /mj/task/{id}/fetch （此接口返回的图片地址为经过One API转发的地址）

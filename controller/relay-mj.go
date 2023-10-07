@@ -209,6 +209,10 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 			}
 		}
 		midjRequest.Action = "IMAGINE"
+	} else if relayMode == RelayModeMidjourneyDescribe {//按图生文任务，此类任务可重复
+		midjRequest.Action = "DESCRIBE"
+	} else if relayMode == RelayModeMidjourneyBlend {//绘画任务，此类任务可重复
+		midjRequest.Action = "BLEND"
 	} else if midjRequest.TaskId != "" {//放大、变换任务，此类任务，如果重复且已有结果，远端api会直接返回最终结果
 		originTask := model.GetByMJId(midjRequest.TaskId)
 		if originTask == nil {

@@ -49,10 +49,14 @@ func SetRelayRouter(router *gin.Engine) {
 		//mj-proxy项目API
 		// 提交任务：/mj/submit/imagine
 		// 放大变形：/mj/submit/change
+		// 按图识文：/mj/submit/describe
+		// 放大变形：/mj/submit/blend
 		// 任务详情：/mj/task/:id/fetch
 		// 回调设置：/mj/notify
 		relayMjRouter.POST("/submit/imagine", controller.RelayMidjourney)
 		relayMjRouter.POST("/submit/change", controller.RelayMidjourney)
+		relayMjRouter.POST("/submit/describe", controller.RelayMidjourney)
+		relayMjRouter.POST("/submit/blend", controller.RelayMidjourney)
 		relayMjRouter.POST("/notify", controller.RelayMidjourney)
 		relayMjRouter.GET("/task/:id/fetch", controller.RelayMidjourney)
 

@@ -38,7 +38,7 @@ function renderType(type) {
       return <Label basic color='purple'> 变换 </Label>;
     case 'DESCRIBE':
       return <Label basic color='yellow'> 图生文 </Label>;
-    case 'BLEAND':
+    case 'BLEND':
       return <Label basic color='olive'> 图混合 </Label>;
     default:
       return <Label basic color='black'> 未知 </Label>;
