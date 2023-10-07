@@ -83,7 +83,7 @@ func RelayMidjourneyImage(c *gin.Context) {
   } else {
   	if common.MJProxyForceReplaceEnabled {
 			// 找到"/attachments"的位置
-			index := strings.Index(midjourneyTask.ImageUrl, "/attachments")
+			index := strings.Index(midjourneyTask.ImageUrl, "/attachments") +strings.Index(midjourneyTask.ImageUrl, "/ephemeral-attachments")+1
 			// 截取字符串
 			suffix := midjourneyTask.ImageUrl[index:]
 			// 拼接新的URL
