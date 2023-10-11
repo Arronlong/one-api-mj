@@ -37,7 +37,7 @@ const About = () => {
             <Header as='h3'>关于</Header>
             <p>可在设置页面设置关于内容，支持 HTML & Markdown</p>
             魔改版项目仓库地址：
-            <a href='https://github.com/Arronlong/one-api'>
+            <a href='https://github.com/Arronlong/one-api-mj'>
               https://github.com/Arronlong/one-api
             </a>
           </Segment>

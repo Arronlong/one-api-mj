@@ -38,7 +38,7 @@ const Footer = () => {
         ) : (
           <div className='custom-footer'>
             <a
-              href='https://github.com/Arronlong/one-api'
+              href='https://github.com/Arronlong/one-api-mj'
               target='_blank'
             >
               {systemName} {process.env.REACT_APP_VERSION}{' '}
