@@ -265,7 +265,7 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 
 	// map model name
 	modelMapping := c.GetString("model_mapping")
-	isModelMapped := false
+	// isModelMapped := false
 	if modelMapping != "" {
 		modelMap := make(map[string]string)
 		err := json.Unmarshal([]byte(modelMapping), &modelMap)
@@ -278,7 +278,7 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 		}
 		if modelMap[imageModel] != "" {
 			imageModel = modelMap[imageModel]
-			isModelMapped = true
+			// isModelMapped = true
 		}
 	}
 
@@ -295,26 +295,26 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 	log.Printf("fullRequestURL: %s", fullRequestURL)
 
 	var requestBody io.Reader
-	if isModelMapped {
-		jsonStr, err := json.Marshal(midjRequest)
-		if err != nil {
-			return &MidjourneyResponse{
-				Code:        4,
-				Description: "marshal_text_request_failed",
-			}
+	// if isModelMapped {
+	// 	jsonStr, err := json.Marshal(midjRequest)
+	// 	if err != nil {
+	// 		return &MidjourneyResponse{
+	// 			Code:        4,
+	// 			Description: "marshal_text_request_failed",
+	// 		}
+	// 	}
+	// 	requestBody = bytes.NewBuffer(jsonStr)
+	// } else {
+	// 	requestBody = c.Request.Body
+	// }
+	jsonStr, err := json.Marshal(midjRequest)
+	if err != nil {
+		return &MidjourneyResponse{
+			Code:        4,
+			Description: "marshal_text_request_failed",
 		}
-		requestBody = bytes.NewBuffer(jsonStr)
-	} else {
-		requestBody = c.Request.Body
-		jsonStr, err := json.Marshal(midjRequest)
-		if err != nil {
-			return &MidjourneyResponse{
-				Code:        4,
-				Description: "marshal_text_request_failed",
-			}
-		}
-		requestBody = bytes.NewBuffer(jsonStr)
 	}
+	requestBody = bytes.NewBuffer(jsonStr)
 
 	modelRatio := common.GetModelRatio(imageModel)
 	groupRatio := common.GetGroupRatio(group)
