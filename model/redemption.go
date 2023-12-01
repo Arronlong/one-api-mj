@@ -17,6 +17,7 @@ type Redemption struct {
 	CreatedTime  int64  `json:"created_time" gorm:"bigint"`
 	RedeemedTime int64  `json:"redeemed_time" gorm:"bigint"`
 	Count        int    `json:"count" gorm:"-:all"` // only for api request
+	UsedUserId   int    `json:"used_user_id"`
 }
 
 func GetAllRedemptions(startIdx int, num int) ([]*Redemption, error) {
@@ -50,8 +51,13 @@ func Redeem(key string, userId int) (quota int, err error) {
 	}
 	redemption := &Redemption{}
 
+	keyCol := "`key`"
+	// if common.UsingPostgreSQL {
+	// 	keyCol = `"key"`
+	// }
+
 	err = DB.Transaction(func(tx *gorm.DB) error {
-		err := tx.Set("gorm:query_option", "FOR UPDATE").Where("`key` = ?", key).First(redemption).Error
+		err := tx.Set("gorm:query_option", "FOR UPDATE").Where(keyCol+" = ?", key).First(redemption).Error
 		if err != nil {
 			return errors.New("无效的兑换码")
 		}
@@ -64,6 +70,7 @@ func Redeem(key string, userId int) (quota int, err error) {
 		}
 		redemption.RedeemedTime = common.GetTimestamp()
 		redemption.Status = common.RedemptionCodeStatusUsed
+		redemption.UsedUserId = userId
 		err = tx.Save(redemption).Error
 		return err
 	})

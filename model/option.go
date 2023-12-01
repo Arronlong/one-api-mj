@@ -53,6 +53,14 @@ func InitOptionMap() {
 	common.OptionMap["HomePageContent"] = ""
 	common.OptionMap["Footer"] = common.Footer
 	common.OptionMap["SystemName"] = common.SystemName
+	common.OptionMap["AIChatTitle"] = common.AIChatTitle
+	common.OptionMap["AIChatMainTitle"] = common.AIChatMainTitle
+	common.OptionMap["AIChatSubTitle"] = common.AIChatSubTitle
+	common.OptionMap["AIChatModels"] = common.AIChatModels
+  common.OptionMap["AIChatNoticeShowEnabled"] = strconv.FormatBool(common.AIChatNoticeShowEnabled)
+  common.OptionMap["AIChatNoticeSplashEnabled"] = strconv.FormatBool(common.AIChatNoticeSplashEnabled)
+	common.OptionMap["AIChatNoticeTitle"] = common.AIChatNoticeTitle
+	common.OptionMap["AIChatNoticeContent"] = common.AIChatNoticeContent
 	common.OptionMap["Logo"] = common.Logo
 	common.OptionMap["ServerAddress"] = ""
 	common.OptionMap["MJProxyAddress"] = ""
@@ -148,6 +156,10 @@ func updateOptionMap(key string, value string) (err error) {
 			common.MJProxyForceReplaceEnabled = boolValue
 		case "EmailVerificationEnabled":
 			common.EmailVerificationEnabled = boolValue
+		case "AIChatNoticeShowEnabled":
+			common.AIChatNoticeShowEnabled = boolValue
+		case "AIChatNoticeSplashEnabled":
+			common.AIChatNoticeSplashEnabled = boolValue
 		case "GitHubOAuthEnabled":
 			common.GitHubOAuthEnabled = boolValue
 		case "WeChatAuthEnabled":
@@ -204,6 +216,18 @@ func updateOptionMap(key string, value string) (err error) {
 		common.Footer = value
 	case "SystemName":
 		common.SystemName = value
+	case "AIChatTitle":
+		common.AIChatTitle = value
+	case "AIChatMainTitle":
+		common.AIChatMainTitle = value
+	case "AIChatSubTitle":
+		common.AIChatSubTitle = value
+	case "AIChatModels":
+		common.AIChatModels = value
+	case "AIChatNoticeTitle":
+		common.AIChatNoticeTitle = value
+	case "AIChatNoticeContent":
+		common.AIChatNoticeContent = value
 	case "Logo":
 		common.Logo = value
 	case "WeChatServerAddress":

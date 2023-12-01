@@ -241,7 +241,7 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 			}
 			c.Set("base_url", channel.GetBaseURL())
 			c.Set("channel_id", originTask.ChannelId)
-			log.Printf("检测到此操作为放大、变换，获取原channel信息: %s,%s", strconv.Itoa(originTask.ChannelId), channel.GetBaseURL())
+			log.Printf("检测到当前为单图片操作，获取原channel信息: %s,%s", strconv.Itoa(originTask.ChannelId), channel.GetBaseURL())
 		}
 		midjRequest.Prompt = originTask.Prompt
 	} else if relayMode == RelayModeMidjourneyChange {
@@ -306,6 +306,14 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 		requestBody = bytes.NewBuffer(jsonStr)
 	} else {
 		requestBody = c.Request.Body
+		jsonStr, err := json.Marshal(midjRequest)
+		if err != nil {
+			return &MidjourneyResponse{
+				Code:        4,
+				Description: "marshal_text_request_failed",
+			}
+		}
+		requestBody = bytes.NewBuffer(jsonStr)
 	}
 
 	modelRatio := common.GetModelRatio(imageModel)
@@ -326,7 +334,7 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 			Description: "quota_not_enough",
 		}
 	}
-
+  // fullRequestURL="https://httpbin.org/post"
 	req, err := http.NewRequest(c.Request.Method, fullRequestURL, requestBody)
 	if err != nil {
 		return &MidjourneyResponse{
@@ -335,7 +343,6 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
 		}
 	}
 	//req.Header.Set("Authorization", c.Request.Header.Get("Authorization"))
-
 	req.Header.Set("Content-Type", c.Request.Header.Get("Content-Type"))
 	req.Header.Set("Accept", c.Request.Header.Get("Accept"))
 	//mjToken := ""

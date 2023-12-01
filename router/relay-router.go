@@ -65,4 +65,8 @@ func SetRelayRouter(router *gin.Engine) {
 		// 任务详情：/task/status/:idstr
 	}
 	//relayMjRouter.Use()
+
+	aichatRouter := router.Group("/globalConfig")
+	aichatRouter.GET("/website", controller.GetAIChat_website)
+	aichatRouter.GET("/notice", controller.GetAIChat_notice)
 }

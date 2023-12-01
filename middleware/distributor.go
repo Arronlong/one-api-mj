@@ -65,7 +65,7 @@ func Distribute() func(c *gin.Context) {
 			}
 			if strings.HasPrefix(c.Request.URL.Path, "/v1/images/generations") {
 				if modelRequest.Model == "" {
-					modelRequest.Model = "dall-e"
+					modelRequest.Model = "dall-e-2"
 				}
 			}
 			if strings.HasPrefix(c.Request.URL.Path, "/v1/audio") {

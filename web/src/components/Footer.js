@@ -47,7 +47,7 @@ const Footer = () => {
             <a href='https://github.com/Calcium-Ion/one-api' target='_blank'>
               Calcium-Ion
             </a>{' & '}
-            <a href='https://github.com/songquanpeng' target='_blank'>
+            <a href='https://github.com/songquanpeng/one-api' target='_blank'>
               JustSong
             </a>{' '}
             构建，源代码遵循{' '}

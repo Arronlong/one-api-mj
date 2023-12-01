@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Header, Label, Pagination, Segment, Select, Table } from 'semantic-ui-react';
-import { API, isAdmin, showError, timestamp2string } from '../helpers';
+import { Button, Form, Header, Label, Pagination, Segment, Select, Popup, Table } from 'semantic-ui-react';
+import { API, copy, isAdmin, showError, showSuccess, timestamp2string } from '../helpers';
 
 import { ITEMS_PER_PAGE } from '../constants';
-import { renderQuota } from '../helpers/render';
+import { renderNumber, renderQuota } from '../helpers/render';
 
 function renderTimestamp(timestamp) {
   return (
@@ -46,6 +46,7 @@ const LogsTable = () => {
   const [showStat, setShowStat] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState(1);
+  const [logCount, setLogCount] = useState(ITEMS_PER_PAGE);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searching, setSearching] = useState(false);
   const [logType, setLogType] = useState(0);
@@ -105,7 +106,44 @@ const LogsTable = () => {
     setShowStat(!showStat);
   };
 
+  const showUserInfo = async (userId) => {
+      if (!isAdminUser) {
+          return;
+      }
+      const res = await API.get(`/api/user/${userId}`);
+      const {success, message, data} = res.data;
+      if (success) {
+        return (
+          <Popup
+            content=<div style={{padding: 12}}>
+                  <p>用户名: {data.username}</p>
+                  <p>余额: {renderQuota(data.quota)}</p>
+                  <p>已用额度：{renderQuota(data.used_quota)}</p>
+                  <p>请求次数：{renderNumber(data.request_count)}</p>
+              </div>
+            header='用户信息'
+            hoverable
+          />
+        );
+      } else {
+          showError(message);
+      }
+  };
+
+  const setLogsFormat = (logs) => {
+      for (let i = 0; i < logs.length; i++) {
+          logs[i].timestamp2string = timestamp2string(logs[i].created_at);
+          logs[i].key = '' + logs[i].id;
+      }
+      // data.key = '' + data.id
+      setLogs(logs);
+      setLogCount(logs.length + ITEMS_PER_PAGE);
+      console.log(logCount);
+  }
+
   const loadLogs = async (startIdx) => {
+    setLoading(true);
+
     let url = '';
     let localStartTimestamp = Date.parse(start_timestamp) / 1000;
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
@@ -118,11 +156,11 @@ const LogsTable = () => {
     const { success, message, data } = res.data;
     if (success) {
       if (startIdx === 0) {
-        setLogs(data);
+        setLogsFormat(data);
       } else {
         let newLogs = [...logs];
         newLogs.splice(startIdx * ITEMS_PER_PAGE, data.length, ...data);
-        setLogs(newLogs);
+        setLogsFormat(newLogs);
       }
     } else {
       showError(message);
@@ -145,6 +183,15 @@ const LogsTable = () => {
     setActivePage(1);
     await loadLogs(0);
   };
+
+  const copyText = async (text) => {
+    if (await copy(text)) {
+      showSuccess('已复制：' + text);
+    } else {
+      // setSearchKeyword(text);
+      showError('无法复制到剪贴板，请手动复制');
+    }
+  }
 
   useEffect(() => {
     refresh().then();

@@ -27,6 +27,19 @@ var DisplayInCurrencyEnabled = true
 var DisplayTokenStatEnabled = true
 var MJProxyImageEnabled = true
 var MJProxyForceReplaceEnabled = false
+var AIChatTitle = "AIChat控制台"
+var AIChatMainTitle = "AIChat控制台"
+var AIChatSubTitle = "AIChat控制台"
+var AIChatModels = `[
+  {
+    "name": "gpt-4",
+    "contentType": "Text"
+  }
+]`
+var AIChatNoticeShowEnabled = false
+var AIChatNoticeSplashEnabled = false
+var AIChatNoticeTitle = "欢迎使用AIChat"
+var AIChatNoticeContent = "欢迎使用AIChat，很高兴为您服务"
 
 var UsingSQLite = false
 

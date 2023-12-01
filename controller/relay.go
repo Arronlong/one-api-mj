@@ -29,6 +29,7 @@ const (
 	RelayModeMidjourneyDescribe
 	RelayModeMidjourneyBlend
 	RelayModeMidjourneyChange
+	RelayModeMidjourneyAction
 	RelayModeMidjourneyNotify
 	RelayModeMidjourneyTaskFetch
 	RelayModeAudio
@@ -85,9 +86,11 @@ type TextRequest struct {
 }
 
 type ImageRequest struct {
-	Prompt string `json:"prompt"`
-	N      int    `json:"n"`
-	Size   string `json:"size"`
+	Model   string `json:"model"`
+	Quality string `json:"quality"`
+	Prompt  string `json:"prompt"`
+	N       int    `json:"n"`
+	Size    string `json:"size"`
 }
 
 type AudioResponse struct {
@@ -261,6 +264,8 @@ func RelayMidjourney(c *gin.Context) {
 		relayMode = RelayModeMidjourneyNotify
 	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/change") {
 		relayMode = RelayModeMidjourneyChange
+	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/submit/action") {
+		relayMode = RelayModeMidjourneyAction
 	} else if strings.HasPrefix(c.Request.URL.Path, "/mj/task") {
 		relayMode = RelayModeMidjourneyTaskFetch
 	}

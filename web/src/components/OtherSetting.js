@@ -10,6 +10,14 @@ const OtherSetting = () => {
     About: '',
     SystemName: '',
     Logo: '',
+    AIChatTitle: '',
+    AIChatMainTitle: '',
+    AIChatSubTitle: '',
+    AIChatModels: '',
+    AIChatNoticeShowEnabled: '',
+    AIChatNoticeSplashEnabled: '',
+    AIChatNoticeTitle: '',
+    AIChatNoticeContent: '',
     HomePageContent: ''
   });
   let [loading, setLoading] = useState(false);
@@ -41,6 +49,14 @@ const OtherSetting = () => {
 
   const updateOption = async (key, value) => {
     setLoading(true);
+    switch (key) {
+      case 'AIChatNoticeShowEnabled':
+      case 'AIChatNoticeSplashEnabled':
+        value = inputs[key] === 'true' ? 'false' : 'true';
+        break;
+      default:
+        break;
+    }
     const res = await API.put('/api/option/', {
       key,
       value
@@ -55,7 +71,14 @@ const OtherSetting = () => {
   };
 
   const handleInputChange = async (e, { name, value }) => {
-    setInputs((inputs) => ({ ...inputs, [name]: value }));
+    if (
+        name === 'AIChatNoticeShowEnabled' ||
+        name === 'AIChatNoticeSplashEnabled'
+    ) {
+        await updateOption(name, value);
+    } else {
+        setInputs((inputs) => ({...inputs, [name]: value}));
+    }
   };
 
   const submitNotice = async () => {
@@ -68,6 +91,15 @@ const OtherSetting = () => {
 
   const submitSystemName = async () => {
     await updateOption('SystemName', inputs.SystemName);
+  };
+
+  const submitAIChat = async () => {
+    await updateOption('AIChatTitle', inputs.AIChatTitle);
+    await updateOption('AIChatMainTitle', inputs.AIChatMainTitle);
+    await updateOption('AIChatSubTitle', inputs.AIChatSubTitle);
+    await updateOption('AIChatModels', inputs.AIChatModels);
+    await updateOption('AIChatNoticeTitle', inputs.AIChatNoticeTitle);
+    await updateOption('AIChatNoticeContent', inputs.AIChatNoticeContent);
   };
 
   const submitLogo = async () => {
@@ -176,6 +208,78 @@ const OtherSetting = () => {
             />
           </Form.Group>
           <Form.Button onClick={submitFooter}>设置页脚</Form.Button>
+          <Divider />
+          <Header as='h3'>AIChatWeb设置</Header>
+          <Form.Group widths='equal'>
+            <Form.Input
+              label='AIChatWeb网站Title'
+              placeholder='在此输入AIChatWeb网站Title'
+              value={inputs.AIChatTitle}
+              name='AIChatTitle'
+              onChange={handleInputChange}
+            />
+            <Form.Input
+              label='AIChatWeb侧边栏标题'
+              placeholder='在此输入AIChatWeb侧边栏标题'
+              value={inputs.AIChatMainTitle}
+              name='AIChatMainTitle'
+              onChange={handleInputChange}
+            />
+            <Form.Input
+              label='AIChatWeb侧边栏副标题'
+              placeholder='在此输入AIChat侧边栏副标题'
+              value={inputs.AIChatSubTitle}
+              name='AIChatSubTitle'
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.TextArea
+              label='AIChat模型名'
+              placeholder='在此输入AIChat模型名，json数组格式[{name:"gpt-4", contentType:"Text或者Image"}]'
+              style={{minHeight: 250, fontFamily: 'JetBrains Mono, Consolas'}}
+              value={inputs.AIChatModels}
+              name='AIChatModels'
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Divider/>
+          <Header as='h3'>AIChat公告</Header>
+          <Form.Group widths='equal'>
+            <Form.Checkbox
+                checked={inputs.AIChatNoticeShowEnabled === 'true'}
+                label='开启AIChat公告'
+                name='AIChatNoticeShowEnabled'
+                onChange={handleInputChange}
+            />
+            <Form.Checkbox
+                checked={inputs.AIChatNoticeSplashEnabled === 'true'}
+                label='开启AIChat公告展示效果)'
+                name='AIChatNoticeSplashEnabled'
+                onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Input
+              label='AIChat公告标题'
+              placeholder='在此输入AIChat公告标题'
+              value={inputs.AIChatNoticeTitle}
+              name='AIChatNoticeTitle'
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.TextArea
+              label='AIChat公告内容'
+              placeholder='在此输入AIChat公告内容'
+              style={{minHeight: 250, fontFamily: 'JetBrains Mono, Consolas'}}
+              value={inputs.AIChatNoticeContent}
+              name='AIChatNoticeContent'
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Button onClick={submitAIChat}>保存AIChatWeb设置</Form.Button>
+
         </Form>
       </Grid.Column>
       <Modal

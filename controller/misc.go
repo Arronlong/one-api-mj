@@ -217,3 +217,128 @@ func ResetPassword(c *gin.Context) {
 	})
 	return
 }
+
+type AvailableModel struct {
+	Name        string `json:"name"`
+	ContentType string `json:"contentType"`
+}
+
+func GetAIChat_website(c *gin.Context) {
+	var models []AvailableModel
+	err := json.Unmarshal([]byte(common.AIChatModels), &models)
+	if err != nil {
+	  jsonStr := `[{"name": "gpt-3.5-turbo-16k","contentType": "Text","level": "NormalChat","levelId": 1}]`
+		json.Unmarshal([]byte(jsonStr), &models)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"message": nil,
+			"cnMessage": nil,
+			"data": gin.H{
+				"id": 1,
+				"type": "Website",
+				"typeId": 1,
+				"content": "",
+				"websiteContent": gin.H{
+					"frontBaseUrl": "",
+					"title": common.AIChatTitle,
+					"mainTitle": common.AIChatMainTitle,
+					"subTitle": common.AIChatSubTitle,
+					"icp": nil,
+					"globalJavaScript": nil,
+					"loginPageSubTitle": "登录后可管理许可证",
+					"registerPageSubTitle": "注册后赠送免费额度哦",
+					"registerTypes": []string{
+						"UsernameAndEmailWithCaptchaAndCode",
+					},
+					"registerEmailSuffix": "@",
+					"pricingPageTitle": nil,
+					"pricingPageSubTitle": nil,
+					"chatPageSubTitle": nil,
+					"sensitiveWordsTip": nil,
+					"balanceNotEnough": nil,
+					"hideGithubIcon": false,
+					"botHello": nil,
+					"logoUuid": nil,
+					// "availableModels": []gin.H{
+					// 	{
+					// 		"name": "aichat智能助手",
+					// 		"contentType": "Text",
+					// 	},
+					// },
+					"availableModels": models,
+					"registerForInviteCodeOnly": false,
+					"auditAfterRegister": true,
+					"auditingActions": []string{
+						// "login",
+						// "buyPackage",
+					},
+					"hideChatLogWhenNotLogin": false,
+					"redeemCodePageTitle": "",
+					"redeemCodePageSubTitle": "",
+					"redeemCodePageBanner": "",
+					"redeemCodePageTop": "",
+					"redeemCodePageIndex": "",
+					"redeemCodePageBottom": "",
+					"defaultSystemTemplate": nil,
+					"plugins": []gin.H{
+						// {
+						// 	"id": 1,
+						// 	"uuid": "594a90be-0f21-4f72-9a22-4403e5028f81",
+						// 	"name": "联网插件",
+						// 	"logo": nil,
+						// 	"alone": true,
+						// 	"builtin": true,
+						// 	"state": 10,
+						// 	"createTime": "2023-08-27 16:19:09",
+						// 	"updateTime": "2023-08-27 16:19:09",
+						// },
+					},
+				},
+				"emailContent": nil,
+				"phoneContent": nil,
+				"registerQuotaContent": nil,
+				"sensitiveWordsContent": nil,
+				"noticeContent": nil,
+				"payContent": nil,
+				"wechatContent": nil,
+				"inviteRegisterContent": nil,
+				"chatContent": nil,
+				"drawContent": nil,
+				"aboutContent": nil,
+			},
+		})
+	return
+}
+
+func GetAIChat_notice(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+        "code":    0,
+        "message": nil,
+        "cnMessage": nil,
+        "data": map[string]interface{}{
+            "id":             1,
+            "type":           "Notice",
+            "typeId":         5,
+            "content":        "",
+            "websiteContent": nil,
+            "emailContent":   nil,
+            "phoneContent":   nil,
+            "registerQuotaContent": nil,
+            "sensitiveWordsContent": nil,
+            "noticeContent": map[string]interface{}{
+                "show":    common.AIChatNoticeShowEnabled,
+                "splash":  common.AIChatNoticeSplashEnabled,
+                "title":   common.AIChatNoticeTitle,
+                "content": common.AIChatNoticeContent,
+            },
+            "payContent":            nil,
+            "wechatContent":         nil,
+            "inviteRegisterContent": nil,
+            "chatContent":           nil,
+            "drawContent":           nil,
+        },
+		})
+	return
+}
