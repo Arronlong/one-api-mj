@@ -833,8 +833,8 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 		midjResponse.Code = 1
 		//修改返回值
 		newBody := strings.Replace(string(responseBody), `"code":0`, `"code":1`, -1)
-		newBody := strings.Replace(string(responseBody), `"status":`, `"description":`, -1)
-		newBody := strings.Replace(string(responseBody), `"taskId":`, `"result":`, -1)
+		newBody = strings.Replace(newBody, `"status":`, `"description":`, -1)
+		newBody = strings.Replace(newBody, `"taskId":`, `"result":`, -1)
 		responseBody = []byte(newBody)
 	}
 
