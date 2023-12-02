@@ -127,22 +127,24 @@ func UpdateMidjourneyTask() {
 				}
 				
 				if midjourneyChannel.Type == common.ChannelTypeChatMjv3{
-					responseItem.Description = "/imagine " + responseItem.Prompt
-					responseItem.State = responseItem.MsgId
 					if responseItem.Status == "PROGRESS" {
 						responseItem.Status = "IN_PROGRESS"
+						if responseItem.StartTime == 0 || responseItem.StartTime == nil {
+							responseItem.StartTime = time.Now().UnixNano() / int64(time.Millisecond),
+						}
+					} else if responseItem.Status == "FAIL"{
+						responseItem.Status == "FAILURE"
 					}
-					if responseItem.StartTime == 0 {
-						responseItem.StartTime = time.Now().UnixNano() / int64(time.Millisecond),
-					}
+					
+					responseItem.Description = "/imagine " + responseItem.Prompt
+					responseItem.State = responseItem.MsgId
 					responseItem.ImageUrl = responseItem.URI
 					if responseItem.Progress == "done"{
 						responseItem.Progress = "100%"
-						if responseItem.FinishTime == 0 {
+						if responseItem.FinishTime == 0  || responseItem.FinishTime == nil{
 							responseItem.FinishTime = time.Now().UnixNano() / int64(time.Millisecond),
 						}
 					}
-
 				}
 
 				task.Code = 1
