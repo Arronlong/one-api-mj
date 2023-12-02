@@ -45,6 +45,29 @@ func UpdateMidjourneyTask() {
 					continue
 				}
 				requestUrl := fmt.Sprintf("%s/mj/task/%s/fetch", *midjourneyChannel.BaseURL, task.MjId)
+
+			  switch midjourneyChannel.Type {
+
+			  case common.ChannelTypeChatMj: // https://github.com/Licoy/ChatGPT-Midjourney/tree/v2
+			    requestUrl = fmt.Sprintf("%s/mj/task/%s/fetch", *midjourneyChannel.BaseURL, task.MjId)
+
+			  case common.ChannelTypeChatMjv3: // https://github.com/Licoy/ChatGPT-Midjourney
+			    requestUrl = fmt.Sprintf("%s/task/status/%s", *midjourneyChannel.BaseURL, task.MjId)
+
+			  case common.ChannelTypeMjProxy: //https://github.com/novicezk/midjourney-proxy
+			    requestUrl = fmt.Sprintf("%s/mj/task/%s/fetch", *midjourneyChannel.BaseURL, task.MjId)
+
+			  case common.ChannelTypeMjProxyPlus: //https://github.com/litter-coder/midjourney-proxy-plus
+			    requestUrl = fmt.Sprintf("%s/mj/task/%s/fetch", *midjourneyChannel.BaseURL, task.MjId)
+
+			  case common.ChannelTypeGoApiDraw: //https://docs.goapi.ai/docs/midjourney-api/midjourney-api-v2#inpaint
+			    // requestUrl = fmt.Sprintf("%s/mj/v2/fetch", *midjourneyChannel.BaseURL, task.MjId)
+
+			  case common.ChannelTypeAImageDraw: // https://jiao.nanjiren.online/t/topic/401
+			    // requestUrl = fmt.Sprintf("%s/draw/info?uuid=%s", *midjourneyChannel.BaseURL, task.MjId)
+
+			  }
+
 				log.Printf("requestUrl: %s", requestUrl)
 
 				req, err := http.NewRequest("GET", requestUrl, bytes.NewBuffer([]byte("")))
@@ -102,6 +125,15 @@ func UpdateMidjourneyTask() {
 						continue
 			    }
 				}
+				
+				if responseItem.Progress == "done"{
+					responseItem.Progress = "100%"
+					if midjourneyChannel.Type == common.ChannelTypeChatMjv3{
+						responseItem.State = responseItem.MsgId
+						responseItem.ImageUrl = responseItem.URI
+					}
+				}
+
 				task.Code = 1
 				task.Progress = responseItem.Progress
 				task.Prompt = responseItem.Prompt

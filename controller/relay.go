@@ -175,6 +175,7 @@ type CompletionsStreamResponse struct {
 }
 
 type MidjourneyRequest struct {
+	//chatmj,mjproxy,mjproxyplus
 	Prompt      string   `json:"prompt"`
 	NotifyHook  string   `json:"notifyHook"`
 	Action      string   `json:"action"`
@@ -182,6 +183,13 @@ type MidjourneyRequest struct {
 	State       string   `json:"state"`
 	TaskId      string   `json:"taskId"`
 	Base64Array []string `json:"base64Array"`
+
+	//ChatMjv3
+	Cmd         string   `json:"cmd"`
+	Images      []string `json:"images"`
+	Flags       int      `json:flags`
+	MsgHash     string   `json:msgHash`
+	MsgId       string   `json:msgId`
 }
 
 type MidjourneyResponse struct {
@@ -189,6 +197,11 @@ type MidjourneyResponse struct {
 	Description string      `json:"description"`
 	Properties  interface{} `json:"properties"`
 	Result      string      `json:"result"`
+
+	//ChatMjv3
+	Status      string   `json:"status"`
+	TaskId      string   `json:"taskId"`
+	Msg         string   `json:"msg"`
 }
 
 func Relay(c *gin.Context) {

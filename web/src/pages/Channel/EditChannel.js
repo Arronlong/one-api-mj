@@ -13,13 +13,13 @@ const MODEL_MAPPING_EXAMPLE = {
 function type2secretPrompt(type) {
   // inputs.type === 15 ? '按照如下格式输入：APIKey|SecretKey' : (inputs.type === 18 ? '按照如下格式输入：APPID|APISecret|APIKey' : '请输入渠道对应的鉴权密钥')
   switch (type) {
-    case 15:
+    case 15: //ChannelTypeBaidu
       return '按照如下格式输入：APIKey|SecretKey';
-    case 18:
+    case 18: //ChannelTypeXunfei
       return '按照如下格式输入：APPID|APISecret|APIKey';
-    case 22:
+    case 22: //ChannelTypeFastGPT
       return '按照如下格式输入：APIKey-AppId，例如：fastgpt-0sp2gtvfdgyi4k30jwlgwf1i-64f335d84283f05518e9e041';
-    case 23:
+    case 23: //ChannelTypeTencent
       return '按照如下格式输入：AppId|SecretId|SecretKey';
     default:
       return '请输入渠道对应的鉴权密钥';
@@ -70,13 +70,13 @@ const EditChannel = () => {
           localModels = ['PaLM-2'];
           break;
         case 15:
-          localModels = ['ERNIE-Bot', 'ERNIE-Bot-turbo', 'Embedding-V1'];
+          localModels = ['ERNIE-Bot', 'ERNIE-Bot-turbo', 'ERNIE-Bot-4', 'Embedding-V1'];
           break;
         case 17:
-          localModels = ['qwen-turbo', 'qwen-plus', 'text-embedding-v1'];
+          localModels = ['qwen-turbo', 'qwen-plus', 'qwen-max', 'text-embedding-v1'];
           break;
         case 16:
-          localModels = ['chatglm_pro', 'chatglm_std', 'chatglm_lite'];
+          localModels = ['chatglm_pro', 'chatglm_std', 'chatglm_lite', 'chatglm_turbo'];
           break;
         case 18:
           localModels = ['SparkDesk'];

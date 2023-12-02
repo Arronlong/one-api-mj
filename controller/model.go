@@ -432,6 +432,15 @@ func init() {
 			Root:       "hunyuan",
 			Parent:     nil,
 		},
+		{
+			Id:         "midjourney",
+			Object:     "model",
+			Created:    1677649963,
+			OwnedBy:    "midjourney",
+			Permission: permission,
+			Root:       "midjourney",
+			Parent:     nil,
+		},
 	}
 	openAIModelsMap = make(map[string]OpenAIModels)
 	for _, model := range openAIModels {

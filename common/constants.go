@@ -194,6 +194,14 @@ const (
 	ChannelTypeAIProxyLibrary = 21
 	ChannelTypeFastGPT        = 22
 	ChannelTypeTencent        = 23
+
+
+	ChannelTypeChatMj         = 51
+	ChannelTypeChatMjv3       = 52
+	ChannelTypeMjProxy        = 53
+	ChannelTypeMjProxyPlus    = 54
+	ChannelTypeGoApiDraw      = 55
+	ChannelTypeAImageDraw     = 56
 )
 
 var ChannelBaseURLs = []string{
@@ -220,5 +228,38 @@ var ChannelBaseURLs = []string{
 	"https://openrouter.ai/api",         // 20
 	"https://api.aiproxy.io",            // 21
 	"https://fastgpt.run/api/openapi",   // 22
-	"https://hunyuan.cloud.tencent.com", //23
+	"https://hunyuan.cloud.tencent.com", //23	
+	"",                                  // 24
+	"",                                  // 25
+	"",                                  // 26
+	"",                                  // 27
+	"",                                  // 28
+	"",                                  // 29
+	"",                                  // 30
+	"",                                  // 31
+	"",                                  // 32
+	"",                                  // 33
+	"",                                  // 34
+	"",                                  // 35
+	"",                                  // 36
+	"",                                  // 37
+	"",                                  // 38
+	"",                                  // 39
+	"",                                  // 40
+	"",                                  // 41
+	"",                                  // 42
+	"",                                  // 43
+	"",                                  // 44
+	"",                                  // 45
+	"",                                  // 46
+	"",                                  // 47
+	"",                                  // 48
+	"",                                  // 49
+	"",                                  // 50
+	"",                                  // 51
+	"",                                  // 52
+	"",                                  // 53
+	"",                                  // 54
+	"",                                  // 55
+	"",                                  // 56
 }
