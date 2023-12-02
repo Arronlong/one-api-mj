@@ -826,8 +826,14 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	if midjResponse.Code==1 {
 		midjResponse.Code = 0
 		midjResponse.Description = midjResponse.Msg
+		//修改返回值
+		newBody := strings.Replace(string(responseBody), `"code":1`, `"code":0`, -1)
+		responseBody = []byte(newBody)
 	}else if midjResponse.Code ==0 {
 		midjResponse.Code = 1
+		//修改返回值
+		newBody := strings.Replace(string(responseBody), `"code":0`, `"code":1`, -1)
+		responseBody = []byte(newBody)
 	}
 
 	// 文档：https://github.com/novicezk/midjourney-proxy/blob/main/docs/api.md
