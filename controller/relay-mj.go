@@ -645,10 +645,10 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 
 			switch midjRequest.Action {
 			case "UPSCALE":
-				midjRequest.Cmd = fmt.Sprintf("MJ::JOB::%s::%s::%s", "upsample", midjRequest.Index, originTask.MsgHash)
+				midjRequest.Cmd = fmt.Sprintf("MJ::JOB::%s::%d::%s", "upsample", midjRequest.Index, originTask.MsgHash)
 				
 			case "VARIATION":
-				midjRequest.Cmd = fmt.Sprintf("MJ::JOB::%s::%s::%s", "variation", midjRequest.Index, originTask.MsgHash)
+				midjRequest.Cmd = fmt.Sprintf("MJ::JOB::%s::%d::%s", "variation", midjRequest.Index, originTask.MsgHash)
 
 			}
 
