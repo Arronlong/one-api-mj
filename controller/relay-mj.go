@@ -34,6 +34,7 @@ type Midjourney struct {
 	// chatmjv3
 	MsgId       string `json:"msgId"`
 	URI         string `json:"uri"`
+	MsgHash     string `json:"msg_hash"`
 }
 
 type MidjourneyStatus struct {
