@@ -699,7 +699,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 			// midjRequest.Index = nil
 			midjRequest.MsgHash = originTask.MsgHash
 			midjRequest.MsgId = originTask.State
-			midjRequest.Prompt = fmt.Sprintf("CUSTOM::%s::MJ::JOB::%s::%d::%s", "variation", originTask.MsgHash, midjRequest.Index, originTask.MsgHash)
+			midjRequest.Prompt = fmt.Sprintf("CUSTOM::%s::%s", midjRequest.TaskId, midjRequest.Cmd)
 		}
 	}
 
