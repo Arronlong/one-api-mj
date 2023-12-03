@@ -187,9 +187,9 @@ type MidjourneyRequest struct {
 	//ChatMjv3
 	Cmd         string   `json:"cmd"`
 	Images      []string `json:"images"`
-	Flags       int      `json:flags`
-	MsgHash     string   `json:msgHash`
-	MsgId       string   `json:msgId`
+	Flags       int      `json:"flags"`
+	MsgHash     string   `json:"msgHash"`
+	MsgId       string   `json:"msgId"`
 }
 
 type MidjourneyResponse struct {
