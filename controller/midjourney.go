@@ -14,6 +14,7 @@ import (
 	"time"
 	"strings"
 	"context"
+  "regexp"
 	
 )
 
@@ -150,6 +151,14 @@ func UpdateMidjourneyTask() {
 					responseItem.Description = "/imagine " + responseItem.Prompt
 					responseItem.State = responseItem.MsgId
 					responseItem.ImageUrl = responseItem.URI
+				}
+
+				if responseItem.Progress == "100%" && strings.HasPrefix(responseItem.ImageUrl, "http") {
+					re := regexp.MustCompile(`_([a-zA-Z0-9-]+)\.png`)
+			    match := re.FindStringSubmatch(responseItem.ImageUrl)
+			    if len(match) > 1 {
+			       responseItem.MsgHash = match[1]
+			    }
 				}
 
 				task.Code = 1
