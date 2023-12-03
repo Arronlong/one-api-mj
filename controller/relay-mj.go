@@ -423,7 +423,7 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 	req.Header.Set("mj-api-secret", strings.Split(c.Request.Header.Get("Authorization"), " ")[1])
 	// print request header
 	log.Printf("request header: %s", req.Header)
-	log.Printf("request body: %s", midjRequest)
+	log.Printf("request body: %s", requestBody)
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -780,7 +780,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	req.Header.Set("mj-api-secret", strings.Split(c.Request.Header.Get("Authorization"), " ")[1])
 	// print request header
 	log.Printf("request header: %s", req.Header)
-	log.Printf("request body: %s", midjRequest)
+	log.Printf("request body: %s", requestBody)
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
