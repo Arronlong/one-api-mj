@@ -187,6 +187,46 @@ func relayMidjourneyTask(c *gin.Context, relayMode int) *MidjourneyResponse {
 
 func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
   channelType := c.GetInt("channel")
+
+  if relayMode == RelayModeMidjourneyChange {//放大、变换任务，此类任务，如果重复且已有结果，远端api会直接返回最终结果
+
+		var midjRequest MidjourneyRequest
+		err := common.UnmarshalBodyReusable(c, &midjRequest)
+		if err != nil {
+			return &MidjourneyResponse{
+				Code:        4,
+				Description: "bind_request_body_failed",
+			}
+		}
+
+		originTask := model.GetByMJId(midjRequest.TaskId)
+		if originTask == nil {
+			return &MidjourneyResponse{
+				Code:        4,
+				Description: "task_no_found",
+			}
+		} else if originTask.Action == "UPSCALE" {
+			//return errorWrapper(errors.New("upscale task can not be change"), "request_params_error", http.StatusBadRequest).
+			return &MidjourneyResponse{
+				Code:        4,
+				Description: "upscale_task_can_not_be_change",
+			}
+		} else if originTask.Status != "SUCCESS" {
+			return &MidjourneyResponse{
+				Code:        4,
+				Description: "task_status_is_not_success",
+			}
+		}else{//原任务的Status=SUCCESS，则可以做放大UPSCALE、变换VARIATION等动作，此时必须使用原来的请求地址才能正确处理
+			channel, err := model.GetChannelById(originTask.ChannelId, false)
+			if err != nil {
+				return &MidjourneyResponse{
+					Code:        4,
+					Description: "channel_not_found",
+				}
+			}
+			channelType = channel.Type
+		}
+  }
   switch channelType {
 
   case common.ChannelTypeChatMj: // https://github.com/Licoy/ChatGPT-Midjourney/tree/v2
