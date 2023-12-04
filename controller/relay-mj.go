@@ -616,6 +616,8 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 			}
 		}
 	}
+
+	action := midjRequest.Action
 	if relayMode == RelayModeMidjourneyImagine {//绘画任务，此类任务可重复
 		if midjRequest.Prompt == "" {
 			return &MidjourneyResponse{
@@ -655,8 +657,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 			}
 		}
 		originTask := model.GetByMJId(midjRequest.TaskId)
-		if originTask == nil {
-			return &MidjourneyResponse{
+		if originTask == nil {return &MidjourneyResponse{
 				Code:        4,
 				Description: "task_no_found",
 			}
@@ -683,7 +684,6 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 			c.Set("channel_id", originTask.ChannelId)
 			log.Printf("检测到此操作为放大、变换，获取原channel信息: %s,%s", strconv.Itoa(originTask.ChannelId), channel.GetBaseURL())
 
-
 			switch midjRequest.Action {
 			case "UPSCALE":
 				midjRequest.Cmd = fmt.Sprintf("MJ::JOB::%s::%d::%s", "upsample", midjRequest.Index, originTask.MsgHash)
@@ -693,6 +693,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 
 			}
 
+			action = midjRequest.Action
 			midjRequest.Action = "CUSTOM"
 			midjRequest.Flags = 0
 			midjRequest.Images = make([]string, 0)
@@ -886,10 +887,15 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	// 23-队列已满，请稍后再试 {"code":23,"description":"队列已满，请稍后尝试","result":"14001929738841620","properties":{"discordInstanceId":"1118138338562560102"}}
 	// 24-prompt包含敏感词 {"code":24,"description":"可能包含敏感词","properties":{"promptEn":"nude body","bannedWord":"nude"}}
 	// other: 提交错误，description为错误描述
+	
+	if action == "" {
+		action = midjRequest.Action
+	}
+
 	midjourneyTask := &model.Midjourney{
 		UserId:      userId,
 		Code:        midjResponse.Code,
-		Action:      midjRequest.Action,
+		Action:      action,
 		MjId:        midjResponse.Result,
 		Prompt:      midjRequest.Prompt,
 		PromptEn:    "",

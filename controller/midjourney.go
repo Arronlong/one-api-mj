@@ -173,6 +173,7 @@ func UpdateMidjourneyTask() {
 				task.Status = responseItem.Status
 				task.FailReason = responseItem.FailReason
 				task.Description = responseItem.Description
+				task.MsgHash = responseItem.MsgHash
 				if task.Progress != "100%" && responseItem.FailReason != "" {
 					log.Println(task.MjId + " 构建失败，" + task.FailReason)
 					task.Progress = "100%"
