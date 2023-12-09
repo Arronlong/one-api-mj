@@ -14,7 +14,12 @@ func GetAllChannels(c *gin.Context) {
 	if p < 0 {
 		p = 0
 	}
-	channels, err := model.GetAllChannels(p*common.ItemsPerPage, common.ItemsPerPage, false)
+	// channels, err := model.GetAllChannels(p*common.ItemsPerPage, common.ItemsPerPage, false)
+	pageSize, _ := strconv.Atoi(c.Query("page_size"))
+	if pageSize < 0 {
+		pageSize = common.ItemsPerPage
+	}
+	channels, err := model.GetAllChannels(p*pageSize, pageSize, false)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
