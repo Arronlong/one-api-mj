@@ -46,7 +46,7 @@ func Distribute() func(c *gin.Context) {
 				if modelRequest.Model == "" {
 					modelRequest.Model = "midjourney"
 				}
-			} else if !strings.HasPrefix(c.Request.URL.Path, "/v1/audio") {
+			} else {
 				err = common.UnmarshalBodyReusable(c, &modelRequest)
 			}
 			if err != nil {
@@ -65,10 +65,10 @@ func Distribute() func(c *gin.Context) {
 			}
 			if strings.HasPrefix(c.Request.URL.Path, "/v1/images/generations") {
 				if modelRequest.Model == "" {
-					modelRequest.Model = "dall-e"
+					modelRequest.Model = "dall-e-2"
 				}
 			}
-			if strings.HasPrefix(c.Request.URL.Path, "/v1/audio") {
+			if strings.HasPrefix(c.Request.URL.Path, "/v1/audio/transcriptions") || strings.HasPrefix(c.Request.URL.Path, "/v1/audio/translations") {
 				if modelRequest.Model == "" {
 					modelRequest.Model = "whisper-1"
 				}

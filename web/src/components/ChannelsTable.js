@@ -242,7 +242,7 @@ const ChannelsTable = () => {
     const res = await API.get(`/api/channel/test`);
     const { success, message } = res.data;
     if (success) {
-      showInfo('已成功开始测试所有已启用通道，请刷新页面查看结果。');
+       showInfo('已成功开始测试所有通道，请刷新页面查看结果。');
     } else {
       showError(message);
     }
@@ -294,17 +294,15 @@ const ChannelsTable = () => {
     if (channels.length === 0) return;
     setLoading(true);
     let sortedChannels = [...channels];
-    if (typeof sortedChannels[0][key] === 'string') {
-      sortedChannels.sort((a, b) => {
+    sortedChannels.sort((a, b) => {
+      if (!isNaN(a[key])) {
+        // If the value is numeric, subtract to sort
+        return a[key] - b[key];
+      } else {
+        // If the value is not numeric, sort as strings
         return ('' + a[key]).localeCompare(b[key]);
-      });
-    } else {
-      sortedChannels.sort((a, b) => {
-        if (a[key] === b[key]) return 0;
-        if (a[key] > b[key]) return -1;
-        if (a[key] < b[key]) return 1;
-      });
-    }
+      }
+    });
     if (sortedChannels[0].id === channels[0].id) {
       sortedChannels.reverse();
     }

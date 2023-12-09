@@ -28,12 +28,9 @@ var DisplayTokenStatEnabled = true
 var MJProxyImageEnabled = true
 var MJProxyForceReplaceEnabled = false
 
-var UsingSQLite = false
-
 // Any options with "Secret", "Token" in its key won't be return by GetOptions
 
 var SessionSecret = uuid.New().String()
-var SQLitePath = "one-api.db"
 
 var OptionMap map[string]string
 var OptionMapRWMutex sync.RWMutex
@@ -88,6 +85,7 @@ var QuotaForInviter = 0
 var QuotaForInvitee = 0
 var ChannelDisableThreshold = 5.0
 var AutomaticDisableChannelEnabled = false
+var AutomaticEnableChannelEnabled = false
 var QuotaRemindThreshold = 1000
 var PreConsumedQuota = 500
 var ApproximateTokenEnabled = false
@@ -104,6 +102,8 @@ var SyncFrequency = GetOrDefault("SYNC_FREQUENCY", 10*60) // unit is second
 
 var BatchUpdateEnabled = false
 var BatchUpdateInterval = GetOrDefault("BATCH_UPDATE_INTERVAL", 5)
+
+var RelayTimeout = GetOrDefault("RELAY_TIMEOUT", 0) // unit is second
 
 const (
 	RequestIdKey = "X-Oneapi-Request-Id"

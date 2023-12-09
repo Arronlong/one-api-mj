@@ -3,7 +3,8 @@ import {Divider, Form, Grid, Header} from 'semantic-ui-react';
 import {API, showError, showSuccess, timestamp2string, verifyJSON} from '../helpers';
 
 const OperationSetting = () => {
-    let now = new Date();let [inputs, setInputs] = useState({
+    let now = new Date();
+    let [inputs, setInputs] = useState({
         QuotaForNewUser: 0,
         QuotaForInviter: 0,
         QuotaForInvitee: 0,
@@ -15,6 +16,7 @@ const OperationSetting = () => {
         ChatLink: '',
         QuotaPerUnit: 0,
         AutomaticDisableChannelEnabled: '',
+        AutomaticEnableChannelEnabled: '',
         ChannelDisableThreshold: 0,
         LogConsumeEnabled: '',
         DisplayInCurrencyEnabled: '',
@@ -23,7 +25,8 @@ const OperationSetting = () => {
         RetryTimes: 0
     });
     const [originInputs, setOriginInputs] = useState({});
-    let [loading, setLoading] = useState(false);let [historyTimestamp, setHistoryTimestamp] = useState(timestamp2string(now.getTime() / 1000 - 30 * 24 * 3600)); // a month ago
+    let [loading, setLoading] = useState(false);
+    let [historyTimestamp, setHistoryTimestamp] = useState(timestamp2string(now.getTime() / 1000 - 30 * 24 * 3600)); // a month ago
 
   const getOptions = async () => {
     const res = await API.get('/api/option/');
@@ -139,7 +142,9 @@ const OperationSetting = () => {
       return;
     }
     showError('日志清理失败：' + message);
-  };return (
+  };
+  
+  return (
         <Grid columns={1}>
             <Grid.Column>
                 <Form loading={loading}>
@@ -210,7 +215,8 @@ const OperationSetting = () => {
                     </Form.Group>
                     <Form.Button onClick={() => {
                         submitConfig('general').then();
-                    }}>保存通用设置</Form.Button><Divider />
+                    }}>保存通用设置</Form.Button>
+          <Divider />
           <Header as='h3'>
             日志设置
           </Header>
@@ -263,6 +269,12 @@ const OperationSetting = () => {
                             checked={inputs.AutomaticDisableChannelEnabled === 'true'}
                             label='失败时自动禁用通道'
                             name='AutomaticDisableChannelEnabled'
+                            onChange={handleInputChange}
+                        />
+                        <Form.Checkbox
+                            checked={inputs.AutomaticEnableChannelEnabled === 'true'}
+                            label='成功时自动启用通道'
+                            name='AutomaticEnableChannelEnabled'
                             onChange={handleInputChange}
                         />
                     </Form.Group>
@@ -350,8 +362,7 @@ const OperationSetting = () => {
                 </Form>
             </Grid.Column>
         </Grid>
-    )
-        ;
+    );
 };
 
 export default OperationSetting;
