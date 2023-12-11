@@ -257,11 +257,11 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 	tokenId := c.GetInt("token_id")
 	channelType := c.GetInt("channel")
 	userId := c.GetInt("id")
-	consumeQuota := c.GetBool("consume_quota")
+	// consumeQuota := c.GetBool("consume_quota")
 	group := c.GetString("group")
 	channelId := c.GetInt("channel_id")
 	var midjRequest MidjourneyRequest
-	if consumeQuota {
+	// if consumeQuota {
 		err := common.UnmarshalBodyReusable(c, &midjRequest)
 		if err != nil {
 			return &MidjourneyResponse{
@@ -269,7 +269,7 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 				Description: "bind_request_body_failed",
 			}
 		}
-	}
+	// }
 	if relayMode == RelayModeMidjourneyImagine {//绘画任务，此类任务可重复
 		if midjRequest.Prompt == "" {
 			return &MidjourneyResponse{
@@ -397,7 +397,7 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 
 	quota := int(ratio * sizeRatio * 1000)
 
-	if consumeQuota && userQuota-quota < 0 {
+	if userQuota-quota < 0 {
 		return &MidjourneyResponse{
 			Code:        4,
 			Description: "quota_not_enough",
@@ -449,7 +449,7 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 	}
 
 	defer func(ctx context.Context) {
-		if consumeQuota {
+		// if consumeQuota {
 			err := model.PostConsumeTokenQuota(tokenId, quota)
 			if err != nil {
 				common.SysError("error consuming token remain quota: " + err.Error())
@@ -466,12 +466,9 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 				channelId := c.GetInt("channel_id")
 				model.UpdateChannelUsedQuota(channelId, quota)
 			}
-		}
+		// }
 	}(c.Request.Context())
 
-	//if consumeQuota {
-	//
-	//}
 	responseBody, err := io.ReadAll(resp.Body)
 
 	if err != nil {
@@ -534,7 +531,7 @@ func relayMidjourneySubmit4ChatMj(c *gin.Context, relayMode int) *MidjourneyResp
 	if midjResponse.Code != 1 && midjResponse.Code != 21 && midjResponse.Code != 22 {
 		//非1-提交成功,21-任务已存在和22-排队中，则记录错误原因
 		midjourneyTask.FailReason = midjResponse.Description
-		consumeQuota = false
+		// consumeQuota = false
 	}
 
 	if midjResponse.Code == 21 {//21-任务已存在（处理中或者有结果了）
@@ -603,11 +600,11 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	tokenId := c.GetInt("token_id")
 	channelType := c.GetInt("channel")
 	userId := c.GetInt("id")
-	consumeQuota := c.GetBool("consume_quota")
+	// consumeQuota := c.GetBool("consume_quota")
 	group := c.GetString("group")
 	channelId := c.GetInt("channel_id")
 	var midjRequest MidjourneyRequest
-	if consumeQuota {
+	// if consumeQuota {
 		err := common.UnmarshalBodyReusable(c, &midjRequest)
 		if err != nil {
 			return &MidjourneyResponse{
@@ -615,7 +612,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 				Description: "bind_request_body_failed",
 			}
 		}
-	}
+	// }
 
 	action := midjRequest.Action
 	if relayMode == RelayModeMidjourneyImagine {//绘画任务，此类任务可重复
@@ -755,7 +752,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 
 	quota := int(ratio * sizeRatio * 1000)
 
-	if consumeQuota && userQuota-quota < 0 {
+	if userQuota-quota < 0 {
 		return &MidjourneyResponse{
 			Code:        4,
 			Description: "quota_not_enough",
@@ -807,7 +804,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	}
 	
 	defer func(ctx context.Context) {
-		if consumeQuota {
+		// if consumeQuota {
 			err := model.PostConsumeTokenQuota(tokenId, quota)
 			if err != nil {
 				common.SysError("error consuming token remain quota: " + err.Error())
@@ -824,12 +821,9 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 				channelId := c.GetInt("channel_id")
 				model.UpdateChannelUsedQuota(channelId, quota)
 			}
-		}
+		// }
 	}(c.Request.Context())
 
-	//if consumeQuota {
-	//
-	//}
 	responseBody, err := io.ReadAll(resp.Body)
 
 	if err != nil {
@@ -914,7 +908,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 	if midjResponse.Code != 1 && midjResponse.Code != 21 && midjResponse.Code != 22 {
 		//非1-提交成功,21-任务已存在和22-排队中，则记录错误原因
 		midjourneyTask.FailReason = midjResponse.Description
-		consumeQuota = false
+		// consumeQuota = false
 	}
 
 	if midjResponse.Code == 21 {//21-任务已存在（处理中或者有结果了）
