@@ -88,7 +88,7 @@ func relayTextHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode {
 	}
 	// map model name
 	modelMapping := c.GetString("model_mapping")
-	isModelMapped := false
+	// isModelMapped := false
 	if modelMapping != "" && modelMapping != "{}" {
 		modelMap := make(map[string]string)
 		err := json.Unmarshal([]byte(modelMapping), &modelMap)
@@ -97,7 +97,7 @@ func relayTextHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode {
 		}
 		if modelMap[textRequest.Model] != "" {
 			textRequest.Model = modelMap[textRequest.Model]
-			isModelMapped = true
+			// isModelMapped = true
 		}
 	}
 	apiType := APITypeOpenAI
@@ -235,15 +235,21 @@ func relayTextHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode {
 		}
 	}
 	var requestBody io.Reader
-	if isModelMapped {
-		jsonStr, err := json.Marshal(textRequest)
-		if err != nil {
-			return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
-		}
-		requestBody = bytes.NewBuffer(jsonStr)
-	} else {
-		requestBody = c.Request.Body
+	// if isModelMapped {
+	// 	jsonStr, err := json.Marshal(textRequest)
+	// 	if err != nil {
+	// 		return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
+	// 	}
+	// 	requestBody = bytes.NewBuffer(jsonStr)
+	// } else {
+	// 	requestBody = c.Request.Body
+	// }
+	jsonStr, err := json.Marshal(textRequest)
+	if err != nil {
+		return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
 	}
+	requestBody = bytes.NewBuffer(jsonStr)
+
 	switch apiType {
 	case APITypeClaude:
 		claudeRequest := requestOpenAI2Claude(textRequest)

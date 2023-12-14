@@ -110,15 +110,20 @@ func relayImageHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode 
 	}
 
 	var requestBody io.Reader
-	if isModelMapped || channelType == common.ChannelTypeAzure { // make Azure channel request body
-		jsonStr, err := json.Marshal(imageRequest)
-		if err != nil {
-			return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
-		}
-		requestBody = bytes.NewBuffer(jsonStr)
-	} else {
-		requestBody = c.Request.Body
+	// if isModelMapped || channelType == common.ChannelTypeAzure { // make Azure channel request body
+	// 	jsonStr, err := json.Marshal(imageRequest)
+	// 	if err != nil {
+	// 		return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
+	// 	}
+	// 	requestBody = bytes.NewBuffer(jsonStr)
+	// } else {
+	// 	requestBody = c.Request.Body
+	// }
+	jsonStr, err := json.Marshal(imageRequest)
+	if err != nil {
+		return errorWrapper(err, "marshal_text_request_failed", http.StatusInternalServerError)
 	}
+	requestBody = bytes.NewBuffer(jsonStr)
 
 	modelRatio := common.GetModelRatio(imageModel)
 	groupRatio := common.GetGroupRatio(group)
