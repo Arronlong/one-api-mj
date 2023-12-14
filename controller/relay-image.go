@@ -84,7 +84,7 @@ func relayImageHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode 
 
 	// map model name
 	modelMapping := c.GetString("model_mapping")
-	isModelMapped := false
+	// isModelMapped := false
 	if modelMapping != "" {
 		modelMap := make(map[string]string)
 		err := json.Unmarshal([]byte(modelMapping), &modelMap)
@@ -93,7 +93,7 @@ func relayImageHelper(c *gin.Context, relayMode int) *OpenAIErrorWithStatusCode 
 		}
 		if modelMap[imageModel] != "" {
 			imageModel = modelMap[imageModel]
-			isModelMapped = true
+			// isModelMapped = true
 		}
 	}
 	baseURL := common.ChannelBaseURLs[channelType]
