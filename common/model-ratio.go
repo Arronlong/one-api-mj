@@ -45,6 +45,7 @@ var ModelRatio = map[string]float64{
 	"gpt-4-32k-0613":            30,
 	"gpt-4-1106-preview":        5,    // $0.01 / 1K tokens
 	"gpt-4-vision-preview":      5,    // $0.01 / 1K tokens
+	"gpt-4-gizmo-*":             15,
 	"gpt-3.5-turbo":             0.75, // $0.0015 / 1K tokens
 	"gpt-3.5-turbo-0301":        0.75,
 	"gpt-3.5-turbo-0613":        0.75,
@@ -112,6 +113,9 @@ func UpdateModelRatioByJSONString(jsonStr string) error {
 }
 
 func GetModelRatio(name string) float64 {
+	if strings.HasPrefix(name, "gpt-4-gizmo") {
+		name = "gpt-4-gizmo-*"
+	}
 	ratio, ok := ModelRatio[name]
 	if !ok {
 		SysError("model ratio not found: " + name)

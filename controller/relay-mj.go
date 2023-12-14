@@ -247,6 +247,9 @@ func relayMidjourneySubmit(c *gin.Context, relayMode int) *MidjourneyResponse {
   case common.ChannelTypeAImageDraw: // https://jiao.nanjiren.online/t/topic/401
     return relayMidjourneySubmit4AImageDraw(c, relayMode)
 
+  default: //默认走mj-proxy接口
+    return relayMidjourneySubmit4MjProxy(c, relayMode)
+
   }
   return nil
 }

@@ -66,6 +66,8 @@ func UpdateMidjourneyTask() {
 
 			  case common.ChannelTypeAImageDraw: // https://jiao.nanjiren.online/t/topic/401
 			    // requestUrl = fmt.Sprintf("%s/draw/info?uuid=%s", *midjourneyChannel.BaseURL, task.MjId)
+			  default:
+			    requestUrl = fmt.Sprintf("%s/mj/task/%s/fetch", *midjourneyChannel.BaseURL, task.MjId)
 
 			  }
 
