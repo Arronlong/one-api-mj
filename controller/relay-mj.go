@@ -629,7 +629,7 @@ func relayMidjourneySubmit4ChatMjv3(c *gin.Context, relayMode int) *MidjourneyRe
 		midjRequest.Images = midjRequest.Base64Array
 	} else if relayMode == RelayModeMidjourneyDescribe {//按图生文任务，此类任务可重复
 		midjRequest.Action = "DESCRIBE"
-		midjRequest.Images = midjRequest.Base64Array
+		midjRequest.Images = midjRequest.Base64
 		// midjRequest.Cmd = nil
 		// midjRequest.Index = nil
 		// midjRequest.TaskId = nil
