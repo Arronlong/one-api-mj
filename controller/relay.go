@@ -249,6 +249,7 @@ type MidjourneyRequest struct {
 	State       string   `json:"state"`
 	TaskId      string   `json:"taskId"`
 	Base64Array []string `json:"base64Array"`
+	Base64      []string `json:"base64"`
 
 	//ChatMjv3
 	Cmd         string   `json:"cmd"`
